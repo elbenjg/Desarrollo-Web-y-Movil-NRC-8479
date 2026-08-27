@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Pagina Principal</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body style="background-color: #1A41C9; color: white;">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark shadow" style="background-color: #07176E;">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="https://static.wikitide.net/nicosnextbotswiki/7/74/Nextbot_steamhappy.png" alt="Logo" width="50" height="50"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" style="color: #4A7CFF;">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="catalogo.html" style= "color: #4A7CFF;">Catálogo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active fw-bold" href="agrg_pl.html" style="color: #FF0033 !important;">Agregar películas</a>
+                    </li>
+                </ul>    
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Agregar Película</h1>
+        <form id="formulario-pelicula">
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" required>
+            </div>
+            <div class="mb-3">
+                <label for="imagen" class="form-label">URL de la Imagen</label>
+                <input type="url" class="form-control" id="imagen" required>
+            </div>
+            <div class="mb-3">
+                <label for="año" class="form-label">Año</label>
+                <input type="number" class="form-control" id="año" required>
+            </div>
+            <div class="mb-3">
+                <label for="calificacion" class="form-label">Calificación</label>
+                <select class="form-control" id="calificacion" required>
+                    <option value="">Seleccionar...</option>
+                    <option value="1">1 Estrella</option>
+                    <option value="2">2 Estrellas</option>
+                    <option value="3">3 Estrellas</option>
+                    <option value="4">4 Estrellas</option>
+                    <option value="5">5 Estrellas</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Agregar Película</button>
+        </form>
+    </div>
+
+    <script src="peliculas.js"></script>    
+</body>
