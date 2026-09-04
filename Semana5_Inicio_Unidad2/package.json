@@ -1,0 +1,29 @@
+{
+  "name": "desarrollo-web-y-movil-nrc-8479",
+  "version": "1.0.0",
+  "description": "Benjamín Araya González y Jaime Ariza/\r Rut: 21.924.875-K y 21.895.554-1/\r NRC: 8479",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elbenjg/Desarrollo-Web-y-Movil-NRC-8479.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/elbenjg/Desarrollo-Web-y-Movil-NRC-8479/issues"
+  },
+  "homepage": "https://github.com/elbenjg/Desarrollo-Web-y-Movil-NRC-8479#readme",
+  "dependencies": {
+    "apollo-server-express": "^3.13.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "graphql": "15",
+    "mongoose": "8.17.1"
+  }
+}
