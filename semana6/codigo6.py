@@ -10,8 +10,8 @@ from contextlib import asynccontextmanager
 
 # Configuracion BD mongodb
 MONGODB_URI = "mongodb://localhost:27017"
-DB_NAME = "" #NOMBRE DE LA CARPETAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-COLL_NAME = "items"
+DB_NAME = "dbunab_helados" #NOMBRE DE LA CARPETA
+COLL_NAME = "items" #NOMBRE DE LA COLECCION
 
 client: AsyncIOMotorClient | None = None
 db = None
@@ -29,26 +29,22 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="FastAPI 8479", version="1.0.0", lifespan=lifespan)
 
 class ItemIn(BaseModel):
-    name: str = Field(min_length=1, description="Nombre del Producto")
+    nombre: str = Field(min_length=1, description="Nombre del Producto")
+    descripcion: str = Field(default="", description="Descripcion del Producto")
     precio: float = Field(gt=0, description="Precio > 0")
-    price: List[str] = Field(default_factory=list)
+    tags: List[str] = Field(default_factory=list, description="Ej: ['chocolate', 'sin lactosa']")
     activo: bool = True
 
-class Item(BaseModel):
-    name: str = Field(min_length=1, description="Nombre del Producto")
-    precio: float = Field(gt=0, description="Precio > 0")
-    price: List[str] = Field(default_factory=list)
-    activo: bool = True
-
-class ItemOut(Item):
+class ItemOut(ItemIn):
     id: str
 
 def doc_to_itemout(doc) -> ItemOut:
     return ItemOut(
         id=str(doc["_id"]),
-        name=doc["name"],
+        nombre=doc["nombre"],
         precio=doc["precio"],
-        price=doc.get("price", []),
+        descripcion=doc.get("descripcion", ""),
+        tags=doc.get("tags", []),
         activo=doc.get("activo", True)
     )
 
@@ -57,7 +53,7 @@ def doc_to_itemout(doc) -> ItemOut:
 def health():
     return {"status": "ok"}
 
-@app.get("/item", response_model=List[ItemOut])
+@app.get("/items", response_model=List[ItemOut])
 async def listar_items(
     q: Optional[str] = Query(None, description="Filtro de busqueda por nombre que contenga q"),
     skip: int = Query(0, ge=0),
@@ -65,16 +61,47 @@ async def listar_items(
 ):
     query = {}
     if q:
-        query["name"] = {"$regex": q, "$options": "i"}
+        query["nombre"] = {"$regex": q, "$options": "i"}
     cursor = coll.find(query).skip(skip).limit(limit)
     items: List[ItemOut] = []
     async for doc in cursor:
         items.append(doc_to_itemout(doc))
     return items
 
-@app.post("/item", response_model=ItemOut, status_code=201, tags=["items"])
+@app.post("/items", response_model=ItemOut, status_code=201, tags=["items"])
 async def crear_item(item: ItemIn):
     res = await coll.insert_one(item.model_dump())
     doc = await coll.find_one({"_id": res.inserted_id})
     return doc_to_itemout(doc)
 
+# localhost:8000/items/2
+@app.get("/items/{item_id}", response_model=ItemOut, status_code=200)
+async def obtener_item(item_id: str):
+    if not ObjectId.is_valid(item_id):
+        raise HTTPException(status_code=400, detail="ID invalido")
+    doc = await coll.find_one({"_id": ObjectId(item_id)})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Item no encontrado")
+    return doc_to_itemout(doc)
+
+@app.put("/items/{item_id}", response_model=ItemOut)
+async def actualizar_item(item_id: str, item: ItemIn):
+    if not ObjectId.is_valid(item_id):
+        raise HTTPException(status_code=400, detail="ID invalido")
+    res = await coll.update_one(
+        {"_id": ObjectId(item_id)},
+        {"$set": item.model_dump()}
+    )
+    if res.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Item no encontrado")
+    doc = await coll.find_one({"_id": ObjectId(item_id)})
+    return doc_to_itemout(doc)
+
+@app.delete("/items/{item_id}", status_code=204, tags=["items"])
+async def eliminar_item(item_id: str):
+    if not ObjectId.is_valid(item_id):
+        raise HTTPException(status_code=400, detail="ID invalido")
+    res = await coll.delete_one({"_id": ObjectId(item_id)})
+    if res.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Item no encontrado")
+    return None
