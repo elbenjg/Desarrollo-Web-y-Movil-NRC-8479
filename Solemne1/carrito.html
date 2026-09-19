@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Heladería Frío Natural - Carrito</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="estilos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <header class="bg-deep-earth pb-2 pt-2">
+        <div class="container">
+            <div class="d-flex justify-content-end top-links mb-1" id="top-auth-links">
+                <a href="registrarse.html" id="link-registrarse">Registrarse</a>
+                <a href="iniciar_sesion.html" id="link-sesion">Iniciar sesion</a>
+            </div>
+
+            <div class="text-center">
+                <a href="index.html" class="text-decoration-none"><h1 class="brand-logo mb-2">LOGO</h1></a>
+            </div>
+
+            <nav class="nav-links d-flex flex-wrap justify-content-center pb-2">
+                <a href="sobre_nosotros.html">Sobre nosotros</a>
+                <a href="carta.html">Carta y productos</a>
+                <a href="index.html">Nombre de la heladeria</a>
+                <a href="carrito.html" class="active">Carrito
+                    <span class="badge rounded-pill badge-carrito" id="badge-carrito" style="display:none;">0</span>
+                </a>
+                <a href="locales.html">Locales</a>
+                <a href="contacto.html">Contacto</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container py-4 flex-grow-1">
+        <h2 class="titulo-principal fs-1 mb-4 mt-2 text-center">Tu carrito</h2>
+
+        <div class="alert alert-warning d-none" id="aviso-sesion">
+            Para finalizar tu compra debes <a href="iniciar_sesion.html">iniciar sesión</a> o
+            <a href="registrarse.html">registrarte</a>. Puedes seguir revisando tu carrito mientras tanto.
+        </div>
+
+        <div class="row panel-caja g-0">
+            <!-- Columna izquierda: productos -->
+            <div class="col-md-7 p-4 divisor-derecho">
+                <h4 class="fw-bold mb-3">Carrito (productos y precios)</h4>
+                <div id="contenedor-carrito"></div>
+                <div class="text-end fs-4 fw-bold mt-3">
+                    Total: <span id="total-carrito">$0</span>
+                </div>
+            </div>
+
+            <!-- Columna derecha: detalles de envío -->
+            <div class="col-md-5 p-4">
+                <h4 class="fw-bold mb-3">Detalles de envío</h4>
+                <form id="form-envio" novalidate>
+                    <div class="mb-2">
+                        <input type="text" class="input-pill" id="input-envio-comuna" placeholder="Ingresar comuna">
+                        <div class="mensaje-error" id="error-envio-comuna"></div>
+                    </div>
+                    <div class="mb-2">
+                        <input type="text" class="input-pill" id="input-envio-direccion" placeholder="Ingresar dirección">
+                        <div class="mensaje-error" id="error-envio-direccion"></div>
+                    </div>
+                    <div class="mb-2">
+                        <input type="text" class="input-pill" id="input-envio-region" placeholder="Ingresar región">
+                        <div class="mensaje-error" id="error-envio-region"></div>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="input-pill" id="input-envio-provincia" placeholder="Ingresar provincia">
+                        <div class="mensaje-error" id="error-envio-provincia"></div>
+                    </div>
+                    <p class="small" style="color: var(--mocha);">*Despacho gratuito dentro de un radio de 3&nbsp;km del local seleccionado.</p>
+                    <div class="text-end">
+                        <button type="button" id="btn-pasar-pago" class="btn-marca">Pasar al pago</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-deep-earth pt-3 pb-3 mt-auto">
+        <div class="container">
+            <div class="row fw-bold fs-5 footer-text px-4">
+                <div class="col-6 text-start"><a href="locales.html" class="footer-text">Horarios</a></div>
+                <div class="col-6 text-end pe-5"><a href="contacto.html" class="footer-text">Contacto</a></div>
+            </div>
+            <hr class="footer-line">
+            <div class="d-flex justify-content-between align-items-center px-4">
+                <span class="footer-text fw-bold">@derechos reservados</span>
+                <div class="d-flex gap-3">
+                    <a href="#"><img src="https://static.vecteezy.com/system/resources/thumbnails/018/757/863/small/facebook-logo-facebook-icon-free-free-vector.jpg"
+                        alt="Facebook" style="width: 30px; height: 30px;"></a>
+                    <a href="#"><img src="https://thumbs.dreamstime.com/b/imagen-de-alta-resoluci%C3%B3n-del-icono-instagram-en-blanco-y-negro-para-uso-web-e-impresi%C3%B3n-logo-con-fondo-199614898.jpg"
+                        alt="Instagram" style="width: 30px; height: 30px;"></a>
+                    <a href="#"><img src="https://thumbs.dreamstime.com/b/icono-del-logo-de-twitter-en-blanco-y-negro-logotipo-alta-resoluci%C3%B3n-cuadrado-con-fondo-archivo-pasos-vectoriales-disponible-para-186846527.jpg" alt="Twitter" style="width: 30px; height: 30px;"></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="productos.js"></script>
+    <script src="utilidades.js"></script>
+    <script src="carrito.js"></script>
+    <script src="clientes.js"></script>
+    <script src="boleta.js"></script>
+    <script src="avisos.js"></script>
+    <script src="render.js"></script>
+    <script src="formularios.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

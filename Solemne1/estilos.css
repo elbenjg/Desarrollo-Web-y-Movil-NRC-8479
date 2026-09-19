@@ -1,0 +1,258 @@
+/* ===================================================================
+   estilos.css - Heladería "Frío Natural"
+   Estilos compartidos por todas las páginas del sitio.
+   Paleta oficial (ver paleta-colores.jpg):
+     --deep-earth : #35231D
+     --mocha      : #76543C
+     --beige      : #C09A72
+     --sienna     : #A8754D
+   =================================================================== */
+
+:root {
+    --deep-earth: #35231D;
+    --mocha: #76543C;
+    --beige: #C09A72;
+    --sienna: #A8754D;
+}
+
+/* --- Fondo general de la página --- */
+body {
+    background-image: url('https://images.unsplash.com/photo-1567206563064-6f60f40a2b57?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aGVsYWRlcmlhfGVufDB8fDB8fHww');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: #fcf9f5;
+}
+
+.bg-deep-earth { background-color: var(--deep-earth); }
+
+/* --- Header / Navegación --- */
+.top-links a {
+    color: var(--sienna);
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+.top-links span.saludo {
+    color: var(--beige);
+    margin-left: 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+.top-links button.link-boton {
+    background: none;
+    border: none;
+    color: var(--sienna);
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0;
+    cursor: pointer;
+}
+
+.brand-logo {
+    font-size: 4.5rem;
+    color: white;
+    font-weight: normal;
+    letter-spacing: 1px;
+}
+.brand-logo a {
+    color: white;
+    text-decoration: none;
+}
+
+.nav-links { gap: 20px; }
+.nav-links a {
+    color: var(--mocha);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.05rem;
+}
+.nav-links a.active { color: var(--beige); }
+.nav-links .badge-carrito {
+    background-color: var(--beige);
+    color: var(--deep-earth);
+    font-size: 0.7rem;
+    vertical-align: top;
+}
+
+/* --- Títulos genéricos usados en varias páginas --- */
+.titulo-principal {
+    color: #35231D;
+    font-weight: 700;
+    font-size: 3.0rem;
+}
+.subtitulo {
+    color: var(--deep-earth);
+    font-weight: 700;
+    font-size: 2.9rem;
+}
+
+/* --- Botones "pill" grandes (carta.html) --- */
+.btn-carta {
+    background-color: rgba(192, 154, 114, 0.9);
+    color: var(--mocha);
+    font-size: 2.2rem;
+    font-weight: 700;
+    border-radius: 60px;
+    padding: 25px 40px;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 40px;
+    width: 90%;
+    max-width: 900px;
+    transition: all 0.3s ease;
+    border: none;
+}
+.btn-carta:hover { background-color: var(--mocha); color: var(--beige); text-decoration: none; }
+
+/* --- Botón sólido de marca (usado en formularios, confirmaciones) --- */
+.btn-marca {
+    background-color: var(--mocha);
+    color: #fff;
+    font-weight: 700;
+    border-radius: 40px;
+    padding: 12px 35px;
+    border: none;
+    transition: all 0.25s ease;
+}
+.btn-marca:hover { background-color: var(--deep-earth); color: var(--beige); }
+.btn-marca:disabled { background-color: #a89686; cursor: not-allowed; }
+
+.btn-marca-outline {
+    background-color: transparent;
+    color: var(--mocha);
+    font-weight: 700;
+    border-radius: 40px;
+    padding: 12px 35px;
+    border: 2px solid var(--mocha);
+    transition: all 0.25s ease;
+}
+.btn-marca-outline:hover { background-color: var(--mocha); color: #fff; }
+
+/* --- Inputs tipo "pill" (boceto de registrarse.html) --- */
+.input-pill {
+    background-color: var(--beige);
+    color: var(--deep-earth);
+    border: none;
+    border-radius: 40px;
+    padding: 16px 28px;
+    font-weight: 600;
+    font-size: 1.05rem;
+    width: 100%;
+}
+.input-pill::placeholder { color: var(--deep-earth); opacity: 0.85; }
+.input-pill:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--sienna);
+    background-color: #d6b791;
+}
+.input-pill.is-invalid { box-shadow: 0 0 0 3px #8a3b2f; }
+.mensaje-error {
+    color: #f8d7d3;
+    background-color: #7a2e22;
+    border-radius: 20px;
+    padding: 8px 18px;
+    font-size: 0.85rem;
+    display: none;
+}
+.mensaje-error.mostrar { display: block; }
+
+/* --- Cajas / paneles color "camel" (sobre_nosotros, carrito) --- */
+.panel-caja {
+    background-color: var(--beige);
+    color: var(--mocha);
+    border-radius: 24px;
+    padding: 40px 30px;
+}
+@media (min-width: 768px) {
+    .panel-caja .divisor-derecho { border-right: 2px solid var(--mocha); }
+}
+
+/* --- Sobre nosotros --- */
+.foto-historia { border-radius: 18px; max-width: 100%; }
+
+/* --- Tarjetas de producto (pedidos_online.html) --- */
+.tarjeta-producto {
+    background-color: #ffffffee;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(53,35,29,0.25);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.tarjeta-producto img {
+    height: 190px;
+    object-fit: cover;
+    width: 100%;
+}
+.tarjeta-producto .cuerpo {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+.tarjeta-producto .categoria {
+    color: var(--sienna);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tarjeta-producto .nombre {
+    color: var(--deep-earth);
+    font-weight: 700;
+    font-size: 1.15rem;
+}
+.tarjeta-producto .precio {
+    color: var(--mocha);
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-top: auto;
+}
+
+/* --- Filas del carrito --- */
+.fila-carrito {
+    background-color: #ffffffcc;
+    border-radius: 14px;
+    padding: 12px 16px;
+}
+.fila-carrito input[type="number"] {
+    width: 70px;
+    border-radius: 20px;
+    border: 1px solid var(--sienna);
+    text-align: center;
+    padding: 4px;
+}
+
+/* --- Tarjetas de local (locales.html) --- */
+.tarjeta-local {
+    background-color: #ffffffee;
+    border-radius: 18px;
+    padding: 24px;
+    height: 100%;
+}
+.tarjeta-local h3 { color: var(--deep-earth); }
+.tarjeta-local .horario { color: var(--mocha); font-size: 0.95rem; }
+
+/* --- Boleta digital --- */
+.boleta {
+    background-color: #fffdfa;
+    border: 2px dashed var(--sienna);
+    border-radius: 18px;
+    padding: 30px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+.boleta table { width: 100%; }
+.boleta th { color: var(--mocha); border-bottom: 2px solid var(--beige); }
+.boleta td { border-bottom: 1px solid #eee0d0; }
+
+/* --- Footer --- */
+.footer-text { color: var(--mocha); }
+.footer-line { border-top: 2px solid white; opacity: 1; margin: 15px 0 10px 0; }
+footer a.footer-text { text-decoration: none; }
