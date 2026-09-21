@@ -1,12 +1,4 @@
-/* ===================================================================
-   estilos.css - Heladería "Frío Natural"
-   Estilos compartidos por todas las páginas del sitio.
-   Paleta oficial (ver paleta-colores.jpg):
-     --deep-earth : #35231D
-     --mocha      : #76543C
-     --beige      : #C09A72
-     --sienna     : #A8754D
-   =================================================================== */
+
 
 :root {
     --deep-earth: #35231D;
@@ -15,7 +7,6 @@
     --sienna: #A8754D;
 }
 
-/* --- Fondo general de la página --- */
 body {
     background-image: url('https://images.unsplash.com/photo-1567206563064-6f60f40a2b57?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aGVsYWRlcmlhfGVufDB8fDB8fHww');
     background-size: cover;
@@ -27,41 +18,12 @@ body {
 
 .bg-deep-earth { background-color: var(--deep-earth); }
 
-/* --- Header / Navegación --- */
 .top-links a {
     color: var(--sienna);
     text-decoration: none;
     margin-left: 20px;
     font-size: 0.95rem;
     font-weight: 500;
-}
-.top-links span.saludo {
-    color: var(--beige);
-    margin-left: 20px;
-    font-size: 0.95rem;
-    font-weight: 500;
-}
-.top-links button.link-boton {
-    background: none;
-    border: none;
-    color: var(--sienna);
-    text-decoration: none;
-    margin-left: 20px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    padding: 0;
-    cursor: pointer;
-}
-
-.brand-logo {
-    font-size: 4.5rem;
-    color: white;
-    font-weight: normal;
-    letter-spacing: 1px;
-}
-.brand-logo a {
-    color: white;
-    text-decoration: none;
 }
 
 .nav-links { gap: 20px; }
@@ -79,7 +41,16 @@ body {
     vertical-align: top;
 }
 
-/* --- Títulos genéricos usados en varias páginas --- */
+.wordmark {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 4.5rem;
+    color: var(--beige);
+    letter-spacing: 0.3px;
+    margin-top: 4px;
+}
+
 .titulo-principal {
     color: #35231D;
     font-weight: 700;
@@ -91,7 +62,6 @@ body {
     font-size: 2.9rem;
 }
 
-/* --- Botones "pill" grandes (carta.html) --- */
 .btn-carta {
     background-color: rgba(192, 154, 114, 0.9);
     color: var(--mocha);
@@ -109,7 +79,6 @@ body {
 }
 .btn-carta:hover { background-color: var(--mocha); color: var(--beige); text-decoration: none; }
 
-/* --- Botón sólido de marca (usado en formularios, confirmaciones) --- */
 .btn-marca {
     background-color: var(--mocha);
     color: #fff;
@@ -133,7 +102,6 @@ body {
 }
 .btn-marca-outline:hover { background-color: var(--mocha); color: #fff; }
 
-/* --- Inputs tipo "pill" (boceto de registrarse.html) --- */
 .input-pill {
     background-color: var(--beige);
     color: var(--deep-earth);
@@ -161,7 +129,6 @@ body {
 }
 .mensaje-error.mostrar { display: block; }
 
-/* --- Cajas / paneles color "camel" (sobre_nosotros, carrito) --- */
 .panel-caja {
     background-color: var(--beige);
     color: var(--mocha);
@@ -172,10 +139,9 @@ body {
     .panel-caja .divisor-derecho { border-right: 2px solid var(--mocha); }
 }
 
-/* --- Sobre nosotros --- */
+
 .foto-historia { border-radius: 18px; max-width: 100%; }
 
-/* --- Tarjetas de producto (pedidos_online.html) --- */
 .tarjeta-producto {
     background-color: #ffffffee;
     border-radius: 18px;
@@ -215,7 +181,6 @@ body {
     margin-top: auto;
 }
 
-/* --- Filas del carrito --- */
 .fila-carrito {
     background-color: #ffffffcc;
     border-radius: 14px;
@@ -229,7 +194,6 @@ body {
     padding: 4px;
 }
 
-/* --- Tarjetas de local (locales.html) --- */
 .tarjeta-local {
     background-color: #ffffffee;
     border-radius: 18px;
@@ -239,20 +203,6 @@ body {
 .tarjeta-local h3 { color: var(--deep-earth); }
 .tarjeta-local .horario { color: var(--mocha); font-size: 0.95rem; }
 
-/* --- Boleta digital --- */
-.boleta {
-    background-color: #fffdfa;
-    border: 2px dashed var(--sienna);
-    border-radius: 18px;
-    padding: 30px;
-    max-width: 700px;
-    margin: 0 auto;
-}
-.boleta table { width: 100%; }
-.boleta th { color: var(--mocha); border-bottom: 2px solid var(--beige); }
-.boleta td { border-bottom: 1px solid #eee0d0; }
-
-/* --- Footer --- */
 .footer-text { color: var(--mocha); }
 .footer-line { border-top: 2px solid white; opacity: 1; margin: 15px 0 10px 0; }
 footer a.footer-text { text-decoration: none; }

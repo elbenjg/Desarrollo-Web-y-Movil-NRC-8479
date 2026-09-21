@@ -1,10 +1,5 @@
 
 const LS_CARRITO = "fn_carrito";
-const LS_CLIENTES = "fn_clientes";
-const LS_SESION = "fn_sesion";
-const LS_BOLETAS = "fn_boletas";
-const LS_CONTADOR_BOLETA = "fn_contador_boleta";
-const LS_ENVIO = "fn_envio";
 
 const productosPorDefecto = [
     {
