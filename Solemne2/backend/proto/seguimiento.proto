@@ -1,0 +1,36 @@
+// Contrato interno gRPC entre orders (servidor) y sus consumidores privados: analytics y API Gateway.
+// Regenerar: py -m grpc_tools.protoc -I backend/proto --python_out=backend --grpc_python_out=backend backend/proto/seguimiento.proto
+syntax = "proto3";
+
+package frionatural;
+
+service Seguimiento {
+  rpc SeguirEventos (SeguirRequest) returns (stream EventoPedido);
+  rpc UltimoSeq (UltimoSeqRequest) returns (UltimoSeqResponse);
+}
+
+message SeguirRequest {
+  int64 desde_seq = 1;
+}
+
+message Linea {
+  int32 product_id = 1;
+  string nombre = 2;
+  int32 cantidad = 3;
+  int64 subtotal = 4;
+}
+
+message EventoPedido {
+  int64 seq = 1;
+  string order_id = 2;
+  string estado = 3;
+  string fecha = 4;
+  int64 total = 5;
+  repeated Linea items = 6;
+}
+
+message UltimoSeqRequest {}
+
+message UltimoSeqResponse {
+  int64 seq = 1;
+}

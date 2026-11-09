@@ -1,0 +1,15 @@
+{
+  "name": "frio-natural-graphql-gateway",
+  "version": "1.0.0",
+  "description": "GraphQL Gateway privado de Frío Natural (Solemne 2)",
+  "main": "server.js",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "apollo-server-express": "3.13.0",
+    "express": "4.21.2",
+    "graphql": "15.10.3"
+  }
+}

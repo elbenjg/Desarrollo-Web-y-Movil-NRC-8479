@@ -1,0 +1,303 @@
+newman
+
+Frío Natural - Solemne 2
+
+□ 1. Catálogo (Módulo 1)
+└ S01 Catálogo público (anónimo)
+  GET http://localhost:8000/api/v1/products?available=true [200 OK, 2.06kB, 35ms]
+  √  responde 200
+  √  solo campos públicos (sin stock)
+
+└ S01 Filtro inválido
+  GET http://localhost:8000/api/v1/products?available=quizas [422 Unprocessable Content, 345B, 7ms]
+  √  responde 422
+
+□ 2. Sesiones y autenticación (Módulos 4 y 7)
+└ S07 Login ana
+  POST http://localhost:8000/api/v1/auth/login [200 OK, 300B, 72ms]
+  √  responde 200
+
+└ S07 Login pedro
+  POST http://localhost:8000/api/v1/auth/login [200 OK, 300B, 75ms]
+  √  responde 200
+
+└ S07 Login admin
+  POST http://localhost:8000/api/v1/auth/login [200 OK, 298B, 85ms]
+  √  responde 200
+
+└ S07 Login dueno
+  POST http://localhost:8000/api/v1/auth/login [200 OK, 298B, 70ms]
+  √  responde 200
+
+└ S07 Login cajero
+  POST http://localhost:8000/api/v1/auth/login [200 OK, 299B, 67ms]
+  √  responde 200
+
+└ S07 Login despacho
+  POST http://localhost:8000/api/v1/auth/login [200 OK, 301B, 66ms]
+  √  responde 200
+
+└ S07 Clave incorrecta
+  POST http://localhost:8000/api/v1/auth/login [401 Unauthorized, 223B, 67ms]
+  √  responde 401
+
+└ S07 Correo inexistente (mismo error: no revela si existe)
+  POST http://localhost:8000/api/v1/auth/login [401 Unauthorized, 223B, 71ms]
+  √  responde 401
+  √  mismo mensaje que clave incorrecta
+
+└ S19 Sin sesión
+  GET http://localhost:8000/api/v1/orders [401 Unauthorized, 222B, 3ms]
+  √  responde 401
+
+└ S19 Token falso
+  GET http://localhost:8000/api/v1/orders [401 Unauthorized, 226B, 7ms]
+  √  responde 401
+
+□ 3. Registro de clientes (Módulo 10)
+└ S09 Registro con RUT inválido
+  POST http://localhost:8000/api/v1/clients [422 Unprocessable Content, 330B, 8ms]
+  √  responde 422
+
+└ S09 Registro de cliente nuevo
+  POST http://localhost:8000/api/v1/clients [201 Created, 335B, 78ms]
+  √  responde 201
+  √  la respuesta no trae la clave
+
+└ S09 Registro repetido
+  POST http://localhost:8000/api/v1/clients [409 Conflict, 236B, 7ms]
+  √  responde 409
+
+└ S07 Login antes de verificar el correo
+  POST http://localhost:8000/api/v1/auth/login [403 Forbidden, 247B, 65ms]
+  √  responde 403
+
+└ S11 Perfil propio
+  GET http://localhost:8000/api/v1/clients/me [200 OK, 504B, 13ms]
+  √  responde 200
+
+└ S17 Formulario de contacto (anónimo)
+  POST http://localhost:8000/api/v1/contact [201 Created, 249B, 11ms]
+  √  responde 201
+
+□ 4. Pedido (Módulo 3)
+└ S18 Crear pedido (precio y total del navegador se ignoran)
+  POST http://localhost:8000/api/v1/orders [201 Created, 630B, 30ms]
+  √  responde 201
+  √  estado PENDIENTE_PAGO
+  √  total calculado por el servidor
+
+└ S18 Despacho no puede crear pedidos
+  POST http://localhost:8000/api/v1/orders [403 Forbidden, 233B, 8ms]
+  √  responde 403
+
+□ 5. Permisos por rol y recurso (Módulo 4)
+└ S20 Ana ve su pedido
+  GET http://localhost:8000/api/v1/orders/PED-000027 [200 OK, 625B, 12ms]
+  √  responde 200
+
+└ S20 Pedro NO ve el pedido de Ana
+  GET http://localhost:8000/api/v1/orders/PED-000027 [404 Not Found, 217B, 12ms]
+  √  responde 404
+  √  sin datos del pedido
+
+└ S20 Cajero ve el pedido sin la dirección
+  GET http://localhost:8000/api/v1/orders/PED-000027 [200 OK, 536B, 13ms]
+  √  responde 200
+  √  sin envio
+
+└ S06 Cliente intenta borrar un producto
+  DELETE http://localhost:8000/api/v1/products/1 [403 Forbidden, 233B, 7ms]
+  √  responde 403
+
+└ S25 Cajero intenta ver el reporte
+  GET http://localhost:8000/api/v1/reports/sales?desde=2026-01-01&hasta=2026-12-31 [403 Forbidden, 233B, 7ms]
+  √  responde 403
+
+└ S29 Dueño intenta administrar usuarios
+  GET http://localhost:8000/api/v1/admin/users [403 Forbidden, 233B, 8ms]
+  √  responde 403
+
+└ S25 Cabeceras de identidad falsas se descartan
+  GET http://localhost:8000/api/v1/reports/sales?desde=2026-01-01&hasta=2026-12-31 [403 Forbidden, 233B, 7ms]
+  √  responde 403
+
+└ Ruta no publicada en el gateway
+  GET http://localhost:8000/api/v1/internal/reserve [404 Not Found, 215B, 2ms]
+  √  responde 404
+
+└ Verbo no permitido (no se borran pedidos)
+  DELETE http://localhost:8000/api/v1/orders/PED-000027 [405 Method Not Allowed, 226B, 2ms]
+  √  responde 405
+
+□ 6. Pagos (Módulos 3 y 7)
+└ S26 Iniciar pago (monto y estado del navegador se ignoran)
+  POST http://localhost:8000/api/v1/payments [201 Created, 440B, 23ms]
+  √  responde 201
+  √  queda PENDIENTE
+  √  monto = total del pedido
+
+└ S28 Aviso de pago sin firma
+  POST http://localhost:8000/api/v1/payments/webhook [401 Unauthorized, 215B, 7ms]
+  √  responde 401
+
+└ Proveedor: leer clave de firma desde Vault
+  GET http://127.0.0.1:8200/v1/secret/data/payments [200 OK, 608B, 7ms]
+  √  responde 200
+
+└ S28 Aviso firmado del proveedor
+  ┌
+  │ `Using "CryptoJS" is deprecated. Use "require('crypto-
+  │ js')" instead.`
+  └
+  POST http://localhost:8000/api/v1/payments/webhook [200 OK, 215B, 15ms]
+  √  responde 200
+  √  procesado y APROBADO
+
+└ S28 Aviso repetido (no se procesa dos veces)
+  ┌
+  │ `Using "CryptoJS" is deprecated. Use "require('crypto-
+  │ js')" instead.`
+  └
+  POST http://localhost:8000/api/v1/payments/webhook [200 OK, 238B, 8ms]
+  √  responde 200
+  √  no procesado
+
+└ S20 Pedido quedó PAGADO
+  GET http://localhost:8000/api/v1/orders/PED-000027 [200 OK, 697B, 12ms]
+  √  responde 200
+  √  PAGADO
+
+└ S26 Pagar de nuevo un pedido pagado
+  POST http://localhost:8000/api/v1/payments [409 Conflict, 232B, 16ms]
+  √  responde 409
+
+□ 7. Despacho y boleta (Módulo 10)
+└ S22 Despacho: EN_PREPARACION
+  PATCH http://localhost:8000/api/v1/orders/PED-000027/status [200 OK, 817B, 15ms]
+  √  responde 200
+
+└ S22 Despacho: DESPACHADO
+  PATCH http://localhost:8000/api/v1/orders/PED-000027/status [200 OK, 901B, 14ms]
+  √  responde 200
+
+└ S22 Saltar un estado
+  PATCH http://localhost:8000/api/v1/orders/PED-000027/status [409 Conflict, 243B, 14ms]
+  √  responde 409
+
+└ S22 Cliente intenta cambiar el estado
+  PATCH http://localhost:8000/api/v1/orders/PED-000027/status [403 Forbidden, 233B, 8ms]
+  √  responde 403
+
+└ S22 Despacho: ENTREGADO
+  PATCH http://localhost:8000/api/v1/orders/PED-000027/status [200 OK, 987B, 16ms]
+  √  responde 200
+
+└ S23 Cajero emite la boleta
+  POST http://localhost:8000/api/v1/orders/PED-000027/receipt [201 Created, 471B, 22ms]
+  √  responde 201
+
+└ S24 Clienta ve su boleta
+  GET http://localhost:8000/api/v1/orders/PED-000027/receipt [200 OK, 466B, 13ms]
+  √  responde 200
+
+□ 8. GraphQL y analítica (Módulos 8 y 9)
+└ G01 resumenPedido: orders + inventory + payments
+  POST http://localhost:8000/api/v1/graphql [200 OK, 429B, 24ms]
+  √  responde 200
+  √  estado desde orders
+  √  categoría desde inventory
+  √  pago desde payments
+
+└ G01 Pedro no ve el pedido de Ana
+  POST http://localhost:8000/api/v1/graphql [200 OK, 224B, 15ms]
+  √  resumenPedido = null
+
+└ G01 Cajero no ve el campo envio
+  POST http://localhost:8000/api/v1/graphql [200 OK, 542B, 28ms]
+  √  envio = null y error en ese campo
+
+└ G03 reporteVentas como clienta (prohibido)
+  POST http://localhost:8000/api/v1/graphql [200 OK, 311B, 11ms]
+  √  FORBIDDEN
+
+└ Límite de profundidad
+  POST http://localhost:8000/api/v1/graphql [400 Bad Request, 460B, 13ms]
+  √  rechazada por profunda
+
+└ Límite de paginación
+  POST http://localhost:8000/api/v1/graphql [200 OK, 327B, 25ms]
+  √  rechaza porPagina > 20
+
+└ Introspección deshabilitada
+  POST http://localhost:8000/api/v1/graphql [400 Bad Request, 458B, 12ms]
+  √  rechazada
+
+└ S32 GraphQL sin sesión
+  POST http://localhost:8000/api/v1/graphql [401 Unauthorized, 222B, 3ms]
+  √  responde 401
+
+└ S25 Reporte del dueño (servicio de analítica)
+  GET http://localhost:8000/api/v1/reports/sales?desde=2026-01-01&hasta=2026-12-31 [200 OK, 480B, 16ms]
+  √  responde 200
+  √  hay ventas
+
+└ G03 reporteVentas como dueño (analytics + inventory)
+  POST http://localhost:8000/api/v1/graphql [200 OK, 409B, 39ms]
+  √  responde 200
+  √  con categorías
+
+□ 9. Servicios privados y logout (Módulos 5, 6 y 8)
+└ Directo a inventory (localhost:8001) sin secreto interno
+  GET http://localhost:8001/products [403 Forbidden, 220B, 3ms]
+  √  responde 403
+
+└ Directo a orders (localhost:8002) sin secreto interno
+  GET http://localhost:8002/orders [403 Forbidden, 220B, 3ms]
+  √  responde 403
+
+└ Directo a clients (localhost:8003) sin secreto interno
+  GET http://localhost:8003/clients [403 Forbidden, 220B, 3ms]
+  √  responde 403
+
+└ Directo a payments (localhost:8004) sin secreto interno
+  GET http://localhost:8004/payments?order_id=x [403 Forbidden, 220B, 5ms]
+  √  responde 403
+
+└ Directo a analytics (localhost:8006) sin secreto interno
+  GET http://localhost:8006/reports/sales [403 Forbidden, 220B, 3ms]
+  √  responde 403
+
+└ Directo a auth (localhost:8100) sin secreto interno
+  GET http://localhost:8100/users [403 Forbidden, 220B, 3ms]
+  √  responde 403
+
+└ Directo a GraphQL (8005) sin secreto interno
+  POST http://localhost:8005/graphql [403 Forbidden, 278B, 2ms]
+  √  responde 403
+
+└ S08 Logout y token revocado
+  POST http://localhost:8000/api/v1/auth/logout [200 OK, 209B, 12ms]
+  √  responde 200
+  GET http://localhost:8000/api/v1/orders [401 Unauthorized, 226B, 8ms]
+  √  el token ya no sirve (401)
+
+┌─────────────────────────┬──────────────────┬──────────────────┐
+│                         │         executed │           failed │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              iterations │                1 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│                requests │               62 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│            test-scripts │               61 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│      prerequest-scripts │               64 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              assertions │               79 │                0 │
+├─────────────────────────┴──────────────────┴──────────────────┤
+│ total run duration: 6.4s                                      │
+├───────────────────────────────────────────────────────────────┤
+│ total data received: 11.76kB (approx)                         │
+├───────────────────────────────────────────────────────────────┤
+│ average response time: 21ms [min: 2ms, max: 85ms, s.d.: 23ms] │
+└───────────────────────────────────────────────────────────────┘

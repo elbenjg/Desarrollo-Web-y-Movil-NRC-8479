@@ -1,0 +1,84 @@
+{
+  "entorno": {
+    "tipo": "medición local",
+    "so": "Windows-11-10.0.26200-SP0",
+    "python": "3.14.3",
+    "cpus": 16,
+    "ram_gb": 15.9,
+    "fecha": "2026-11-09 15:00"
+  },
+  "resultados": [
+    {
+      "escenario": "catalogo",
+      "solicitudes": 400,
+      "concurrencia": 20,
+      "duracion_s": 2.92,
+      "throughput_rps": 136.8,
+      "p50_ms": 126.5,
+      "p95_ms": 267.7,
+      "errores": 0,
+      "cpu_backend_pct": 122.9,
+      "memoria_backend_mb": 904.7,
+      "objetivo_p95_ms": 500,
+      "cumple": true
+    },
+    {
+      "escenario": "graphql_resumen",
+      "solicitudes": 400,
+      "concurrencia": 20,
+      "duracion_s": 4.95,
+      "throughput_rps": 80.8,
+      "p50_ms": 234.0,
+      "p95_ms": 359.6,
+      "errores": 0,
+      "cpu_backend_pct": 195.7,
+      "memoria_backend_mb": 971.8,
+      "objetivo_p95_ms": 800,
+      "cumple": true
+    },
+    {
+      "escenario": "graphql_reporte",
+      "solicitudes": 400,
+      "concurrencia": 20,
+      "duracion_s": 3.8,
+      "throughput_rps": 105.3,
+      "p50_ms": 161.9,
+      "p95_ms": 380.3,
+      "errores": 0,
+      "cpu_backend_pct": 164.8,
+      "memoria_backend_mb": 994.3,
+      "objetivo_p95_ms": 800,
+      "cumple": true
+    },
+    {
+      "escenario": "reporte_analytics",
+      "solicitudes": 400,
+      "concurrencia": 20,
+      "duracion_s": 4.8,
+      "throughput_rps": 83.4,
+      "p50_ms": 226.8,
+      "p95_ms": 362.7,
+      "errores": 0,
+      "cpu_backend_pct": 144.6,
+      "memoria_backend_mb": 937.7,
+      "objetivo_p95_ms": 500,
+      "cumple": true
+    },
+    {
+      "escenario": "grpc_eventos_pedidos",
+      "pedidos": 100,
+      "concurrencia": 20,
+      "duracion_s": 1.34,
+      "eventos_por_s": 74.8,
+      "latencia_evento_p50_ms": 394.7,
+      "latencia_evento_p95_ms": 710.9,
+      "errores": 0,
+      "eventos_perdidos": 0,
+      "analytics_al_dia_s": 1.39,
+      "cpu_backend_pct": 174.1,
+      "objetivo_evento_p95_ms": 1000,
+      "objetivo_analytics_s": 5,
+      "cumple": true
+    }
+  ]
+}
