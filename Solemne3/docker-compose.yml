@@ -1,0 +1,114 @@
+# Frío Natural completo en contenedores. Levantar: docker compose up -d --build · Apagar y borrar datos: docker compose down -v
+name: frio-natural
+
+x-entorno: &entorno
+  MONGODB_URI: mongodb://mongo:27017
+  VAULT_ADDR: http://vault:8200
+  AUTH_URL: http://auth:8100
+  INVENTORY_URL: http://inventory:8001
+  ORDERS_URL: http://orders:8002
+  CLIENTS_URL: http://clients:8003
+  PAYMENTS_URL: http://payments:8004
+  GRAPHQL_URL: http://graphql:8005
+  ANALYTICS_URL: http://analytics:8006
+  ORDERS_GRPC_ADDR: orders:50051
+  PYTHONUNBUFFERED: "1"
+
+x-backend: &backend
+  build: .
+  image: frio-natural-backend
+  environment: *entorno
+  volumes:
+    - ./.runtime:/compartido
+  depends_on:
+    preparar:
+      condition: service_completed_successfully
+
+services:
+  mongo:
+    image: mongo:8.0
+    ports: ["127.0.0.1:27018:27017"]
+
+  vault:
+    image: hashicorp/vault:2.1.1
+    entrypoint: ["sh", "-c"]
+    command:
+      - >-
+        export VAULT_DEV_ROOT_TOKEN_ID=$$(head -c 16 /dev/urandom | od -An -tx1 | tr -d ' \n') &&
+        printf %s "$$VAULT_DEV_ROOT_TOKEN_ID" > /compartido/vault-token &&
+        exec vault server -dev -dev-listen-address=0.0.0.0:8200
+    volumes:
+      - ./.runtime:/compartido
+    ports: ["127.0.0.1:8200:8200"]
+    healthcheck:
+      test: ["CMD", "vault", "status", "-address=http://127.0.0.1:8200"]
+      interval: 2s
+      retries: 30
+
+  preparar:
+    <<: *backend
+    command: python preparar.py
+    depends_on:
+      vault:
+        condition: service_healthy
+      mongo:
+        condition: service_started
+
+  auth:
+    <<: *backend
+    command: sh -c ". /compartido/env/auth.env && exec uvicorn auth_service.main:app --host 0.0.0.0 --port 8100 --no-access-log"
+    ports: ["127.0.0.1:8100:8100"]
+
+  inventory:
+    <<: *backend
+    command: sh -c ". /compartido/env/inventory.env && exec uvicorn inventory.main:app --host 0.0.0.0 --port 8001 --no-access-log"
+    ports: ["127.0.0.1:8001:8001"]
+
+  orders:
+    <<: *backend
+    environment:
+      <<: *entorno
+      ORDERS_GRPC_ADDR: 0.0.0.0:50051
+    command: sh -c ". /compartido/env/orders.env && exec uvicorn orders.main:app --host 0.0.0.0 --port 8002 --no-access-log"
+    ports: ["127.0.0.1:8002:8002", "127.0.0.1:50051:50051"]
+
+  clients:
+    <<: *backend
+    command: sh -c ". /compartido/env/clients.env && exec uvicorn clients.main:app --host 0.0.0.0 --port 8003 --no-access-log"
+    ports: ["127.0.0.1:8003:8003"]
+
+  payments:
+    <<: *backend
+    command: sh -c ". /compartido/env/payments.env && exec uvicorn payments.main:app --host 0.0.0.0 --port 8004 --no-access-log"
+    ports: ["127.0.0.1:8004:8004"]
+
+  analytics:
+    <<: *backend
+    command: sh -c ". /compartido/env/analytics.env && exec uvicorn analytics.main:app --host 0.0.0.0 --port 8006 --no-access-log"
+    ports: ["127.0.0.1:8006:8006"]
+
+  graphql:
+    <<: *backend
+    build:
+      context: .
+      dockerfile: backend/graphql_gateway/Dockerfile
+    image: frio-natural-graphql
+    environment:
+      <<: *entorno
+      HOST: 0.0.0.0
+    command: sh -c ". /compartido/env/graphql.env && exec node server.js"
+    ports: ["127.0.0.1:8005:8005"]
+
+  gateway:
+    <<: *backend
+    environment:
+      <<: *entorno
+      GATEWAY_RATE_LIMIT: ${GATEWAY_RATE_LIMIT:-120}
+    command: sh -c ". /compartido/env/gateway.env && exec uvicorn gateway.main:app --host 0.0.0.0 --port 8000 --no-access-log"
+    ports: ["127.0.0.1:8000:8000"]
+
+  frontend:
+    image: nginx:1.29-alpine
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+    ports: ["127.0.0.1:5500:80"]

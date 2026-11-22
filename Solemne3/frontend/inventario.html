@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Heladería Frío Natural - Inventario</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="estilos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <header class="bg-deep-earth pb-2 pt-2">
+        <div class="container">
+            <div class="d-flex justify-content-end top-links mb-1" id="top-auth-links">
+                <a href="registrarse.html" id="link-registrarse">Registrarse</a>
+                <a href="iniciar_sesion.html" id="link-sesion">Iniciar sesion</a>
+            </div>
+
+            <div class="text-center">
+                <a href="index.html" class="text-decoration-none">
+                    <div class="wordmark">Frío Natural</div>
+                </a>
+            </div>
+
+            <nav class="nav-links d-flex flex-wrap justify-content-center pb-2">
+                <a href="sobre_nosotros.html">Sobre nosotros</a>
+                <a href="carta.html">Carta y productos</a>
+                <a href="carrito.html">Carrito
+                    <span class="badge rounded-pill badge-carrito" id="badge-carrito" style="display:none;">0</span>
+                </a>
+                <a href="locales.html">Locales</a>
+                <a href="contacto.html">Contacto</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container py-5 flex-grow-1">
+      <div class="panel-caja">
+        <h2 class="titulo-principal text-center fs-1 mb-4">Inventario</h2>
+
+        <div class="alert d-none" id="aviso-inventario" role="status"></div>
+
+        <section class="card mb-4 d-none" id="seccion-producto">
+            <div class="card-body">
+                <h3 class="fs-4 mb-3" id="titulo-producto">Nuevo producto</h3>
+                <form id="form-producto" class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label" for="producto-nombre">Nombre</label>
+                        <input class="form-control" id="producto-nombre" required maxlength="80">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="producto-categoria">Categoría</label>
+                        <input class="form-control" id="producto-categoria" required maxlength="40">
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <label class="form-label" for="producto-precio">Precio (CLP)</label>
+                        <input class="form-control" id="producto-precio" type="number" required min="1" max="1000000" step="1">
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <label class="form-label" for="producto-stock">Stock</label>
+                        <input class="form-control" id="producto-stock" type="number" required min="0" max="100000" step="1">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="producto-imagen">URL de la imagen</label>
+                        <input class="form-control" id="producto-imagen" type="url" maxlength="500">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" for="producto-descripcion">Descripción</label>
+                        <textarea class="form-control" id="producto-descripcion" rows="2" maxlength="500"></textarea>
+                    </div>
+                    <div class="col-12 form-check ms-2">
+                        <input class="form-check-input" id="producto-disponible" type="checkbox" checked>
+                        <label class="form-check-label" for="producto-disponible">Disponible en la carta</label>
+                    </div>
+                    <div class="col-12 d-flex flex-wrap gap-2">
+                        <button type="submit" class="btn-marca" id="boton-guardar-producto">Agregar producto</button>
+                        <button type="button" class="btn-marca-outline d-none" id="boton-cancelar-edicion">Cancelar edición</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <p class="text-center my-4" id="estado-inventario">Cargando inventario…</p>
+
+        <div class="table-responsive">
+            <table class="table align-middle d-none" id="tabla-inventario">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Producto</th>
+                        <th>Categoría</th>
+                        <th class="text-end">Precio</th>
+                        <th style="min-width: 110px;">Stock</th>
+                        <th>Disponible</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpo-inventario"></tbody>
+            </table>
+        </div>
+      </div>
+    </main>
+
+    <footer class="bg-deep-earth pt-3 pb-3 mt-auto">
+        <div class="container">
+            <div class="row fw-bold fs-5 footer-text px-4">
+                <div class="col-6 text-start"><a href="locales.html" class="footer-text">Horarios</a></div>
+                <div class="col-6 text-end pe-5"><a href="contacto.html" class="footer-text">Contacto</a></div>
+            </div>
+            <hr class="footer-line">
+            <div class="d-flex justify-content-between align-items-center px-4">
+                <span class="footer-text fw-bold">@derechos reservados</span>
+                <div class="d-flex gap-3">
+                    <a href="#"><img src="https://static.vecteezy.com/system/resources/thumbnails/018/757/863/small/facebook-logo-facebook-icon-free-free-vector.jpg"
+                        alt="Facebook" style="width: 30px; height: 30px;"></a>
+                    <a href="#"><img src="https://thumbs.dreamstime.com/b/imagen-de-alta-resoluci%C3%B3n-del-icono-instagram-en-blanco-y-negro-para-uso-web-e-impresi%C3%B3n-logo-con-fondo-199614898.jpg"
+                        alt="Instagram" style="width: 30px; height: 30px;"></a>
+                    <a href="#"><img src="https://thumbs.dreamstime.com/b/icono-del-logo-de-twitter-en-blanco-y-negro-logotipo-alta-resoluci%C3%B3n-cuadrado-con-fondo-archivo-pasos-vectoriales-disponible-para-186846527.jpg" alt="Twitter" style="width: 30px; height: 30px;"></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="productos.js"></script>
+    <script src="utilidades.js"></script>
+    <script src="carrito.js"></script>
+    <script src="render.js"></script>
+    <script src="api.js"></script>
+    <script src="formularios.js"></script>
+    <script src="inventario.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

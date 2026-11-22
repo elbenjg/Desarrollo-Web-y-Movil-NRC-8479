@@ -1,0 +1,9 @@
+.runtime
+**/node_modules
+**/__pycache__
+.pytest_cache
+docs
+tests
+frontend
+postman
+*.pdf
